@@ -10,18 +10,17 @@ def  BubbleSort (x, y, cont):
             for i in range(0, len(x)-1):
                 if x[i] > x[i+1]:
                     x[i], x [i+1] = x[i+1], x[i]
-                    trocou = True
                     cont[0] += 1
-        cont[0] += 1
+                    trocou = True
     if y == 'd':
         while trocou == True :
             trocou = False
             for i in range(0, len(x)-1):
                 if x[i] < x[i+1]:
                     x[i], x [i+1] = x[i+1], x[i]
-                    trocou = True
                     cont[0] += 1
-        cont[0] += 1
+                    trocou = True
+                    
     return x
 
 def selectsort(x, y, op, cont):
@@ -31,22 +30,19 @@ def selectsort(x, y, op, cont):
             for j in range(i, y):
                 if x[j] < x[menor]:#caso na posição j(coluna) senha menor que o valor que esta no aux   então o 
                     menor = j #aux recebe  apossição do vetor em que o numero e o menor de todos e menor
-                    cont[0] += 1
             if i != menor:#caso o valor que o indicador i(linha) aponta, então e trocado  a possição 
                 x[i], x[menor] = x[menor], x[i]
                 cont[0] += 1
-        cont[0] += 1
     if op == 'd':
         for i in range(0, y-1):#vai de 0 ao tamanho -1 para não estrapolar no tamanho do vetor
+            cont[0] += 1
             menor = i #recebe o indicador da possição do vetor
             for j in range(i, y):
                 if x[j] > x[menor]:#caso na posição j(coluna) senha menor que o valor que esta no aux então o 
                     menor = j #aux recebe  apossição do vetor em que o numero e o menor de todos e menor
-                    cont[0] += 1
             if i != menor:#caso o valor que o indicador i(linha) aponta, então e trocado  a possição 
                 x[i], x[menor] = x[menor], x[i]
                 cont[0] += 1
-        cont[0] += 1
     return x
 
 def insertionSort (vetor, opcao, cont):
@@ -57,8 +53,8 @@ def insertionSort (vetor, opcao, cont):
             while (j >= 0) and (auxiliar < vetor[j]):
                 vetor[j+1] = vetor[j]
                 j = j - 1
+                cont[0] += 1
             vetor[j+1] = auxiliar
-        cont[0] += 1
     elif opcao == 'd':
         for i in range(1,len(vetor)):
             auxiliar = vetor[i]
@@ -66,20 +62,19 @@ def insertionSort (vetor, opcao, cont):
             while (j >= 0) and (auxiliar > vetor[j]):
                 vetor[j+1] = vetor[j]
                 j = j - 1
+                cont[0] += 1
             vetor[j+1] = auxiliar
-        cont[0] += 1
     return vetor
 
-def MergeSort(op, V, inicio, fim):
+def MergeSort(V, inicio, fim, op, cont):
     if fim <= inicio:
         return V
     else:
         meio = (inicio + fim) // 2
-        MergeSort(op, V, inicio, meio)#caminha pela parte esquerda do vetor
-        MergeSort(op, V, meio+1, fim)#caminha pela parte direita do vetor
-        Merge(op, V, inicio, meio, fim)#função que verifica se o vetor unitario formado e mior ou menor e junta dois vetores 
-        
-def Merge(op, V, inicio, meio, fim):
+        MergeSort(V, inicio, meio, op, cont)#caminha pela parte esquerda do vetor
+        MergeSort(V, meio+1, fim, op, cont)#caminha pela parte direita do vetor
+        Merge(V, inicio, meio, fim, op, cont)#função que verifica se o vetor unitario formado e mior ou menor e junta dois vetores
+def Merge(V, inicio, meio, fim, op, cont):
     vaux = V[:] #copia o vetor principal para um auxiliar
     p1 = inicio #função que anda o vetor esquerdo(inicial) sem alterar o vetor original
     p2 = meio + 1#função que recebe o meior do vetor V para fraguimentação ate ter um ou mais vetores unitarios
@@ -97,6 +92,7 @@ def Merge(op, V, inicio, meio, fim):
             else:
                 V[k] = vaux[p1]#se o valor salvo no ponto p1 e menor que o valor salvo no p2
                 p1 += 1
+                cont[0] += 1
     if (op == 'd'):#ordem decrecente
         for k in range(inicio, fim + 1):
             if p1 > meio:
@@ -111,37 +107,49 @@ def Merge(op, V, inicio, meio, fim):
             else:
                 V[k] = vaux[p1]
                 p1 += 1
- 
-def Quicksort(V, inicio, fim, op):
-    if inicio < fim:
-        pivo = particionar(V, inicio, fim, op)
-        Quicksort(V, inicio, pivo-1, op)
-        Quicksort(V, pivo+1, fim, op)
-def particionar(V, inicio, fim, op):
-    esq = inicio
-    dir = fim
-    pivo = V[inicio]
+                cont[0] += 1
+
+def Quicksort(array, inicio, fim, op, cont):
+   if inicio < fim:
+       pivo = particiona(array, inicio, fim, op, cont)
+       Quicksort(array,inicio,pivo-1, op, cont)
+       Quicksort(array,pivo+1,fim, op, cont)
+def particiona(array, inicio, fim, op, cont):
+    pivo = array[inicio]
+    esquerda = inicio+1
+    direita = fim
+    aux = False
+    
     if op == 'c':
-        while (esq < dir):
-            while (V[esq] <= pivo and esq <= fim):
-                esq += 1
-            while (V[dir] > pivo and dir >= inicio):
-                dir -= 1
-            if (esq < dir):
-                V[esq], V[dir] = V[dir], V[esq]
-        V[dir], V[inicio] = V[inicio], V[dir]
-        return dir
+        while not aux:
+            while esquerda <= direita and array[esquerda] <= pivo:
+                esquerda += 1
+            while array[direita] >= pivo and direita >= esquerda:
+                direita -= 1
+            if direita < esquerda:
+                aux = True
+            else:
+                array[esquerda], array[direita] = array[direita], array[esquerda]
+                cont[0] += 1
+        array[inicio], array[direita] = array[direita], array[inicio]
+        cont[0] += 1
+        return direita
+    
     if op == 'd':
-        while (esq < dir):
-            while (V[esq] >= pivo and esq <= fim):
-                esq += 1
-            while (V[dir] < pivo and dir >= inicio):
-                dir -= 1
-            if (esq < dir):
-                V[esq], V[dir] = V[dir], V[esq]
-        V[dir], V[inicio] = V[inicio], V[dir]
-        return dir
-           
+        while not aux:
+            while esquerda <= direita and array[esquerda] >= pivo:
+                esquerda += 1
+            while array[direita] <= pivo and direita >= esquerda:
+                direita -= 1
+            if direita < esquerda:
+                aux = True
+            else:
+                array[esquerda], array[direita] = array[direita], array[esquerda]
+                cont[0] += 1
+        array[inicio], array[direita] = array[direita], array[inicio]
+        cont[0] += 1
+        return direita
+
 #entrada de nome e abertura do arq no modo de leitura
 arq = input('\nDigite o nome do arquivo: ')
 fp = open(arq+'.txt','r')
@@ -155,33 +163,39 @@ aux = int(input('\n\nDigite de 1 ate N: '))
 while (aux < 0 or aux == 0):
     aux = int(input('\n\nDigite de 1 ate N: '))
 print('\n')
+
 #criação de um array como o tamanho lido do arquivo.
-array = random.randint(0,aux,size) #gera numeros aleatorios de acordo com o tamanho
-fim = size - 1
+array = []
+for i in range(size):
+    array.append(random.randint(0, aux))
+fim = len(array) - 1
 inicio = 0
 j = [0]
-auxV = array.copy()
 
 #chamada de estruturas de ordenação
 print('==================================================================')
-BubbleSort(auxV, modo, j)
-print(f'\n\nVetor ordenado com Bubblesort:{auxV}')
-auxV = array.copy()
+BubbleSort(array, modo, j)
+print(f'\n\nVetor ordenado com Bubblesort:{array}, comp: {j}')
+random.shuffle(array)
+j = [0]
 
-selectsort(auxV, size, modo, j)
-print(f'\n\nVetor ordenado com Selectsort:{auxV}')
-auxV = array.copy()
+selectsort(array, size, modo, j)
+print(f'\n\nVetor ordenado com Selectsort:{array}, comp: {j}')
+random.shuffle(array)
+j = [0]
 
-insertionSort(auxV, modo, j)
-print(f'\n\nVetor ordenado com Insertionsort:{auxV}')
+insertionSort(array, modo, j)
+print(f'\n\nVetor ordenado com Insertionsort:{array}, comp: {j}')
+random.shuffle(array)
+j = [0]
 
+MergeSort(array, inicio, fim, modo, j)
+print(f'\n\nVetor ordenado com Mergesort:{array}, comp: {j}')
+random.shuffle(array)
+j = [0]
 
-MergeSort(modo, array, inicio, fim)
-print(f'\n\nVetor ordenado com Mergesort:{array}')
-auxV = array.copy()
-
-Quicksort(auxV, inicio, fim, modo)
-print(f'\n\nVetor ordenado com Quicksort:{auxV}')
+Quicksort(array, inicio, fim, modo, j)
+print(f'\n\nVetor ordenado com Quicksort:{array}, comp: {j}')
 print('\n\n==================================================================\n')
 
 #finaliza o arq
