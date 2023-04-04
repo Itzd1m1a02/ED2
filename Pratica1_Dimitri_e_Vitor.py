@@ -150,6 +150,40 @@ def particiona(array, inicio, fim, op, cont):
         cont[0] += 1
         return direita
 
+def Max_Heap(array, i, size, modo, cont):
+    maior = i
+    esquerda = 2*i+1
+    direita = 2*i+2
+    if modo == 'c':
+        if(esquerda <= (size-1)) and (array[esquerda] > array[i]):
+            maior = esquerda
+        if (direita <= (size-1)) and (array[direita] > array[maior]):
+            maior = direita
+        if i != maior:
+            array[i], array[maior] = array[maior], array[i]
+            cont[0] += 1
+            Max_Heap(array, maior, size - 1, modo, cont) 
+    if modo == 'd':
+        if(esquerda <= (size-1)) and (array[esquerda] < array[i]):
+            maior = esquerda
+        if (direita <= (size-1)) and (array[direita] < array[maior]):
+            maior = direita
+        if i != maior:
+            array[i], array[maior] = array[maior], array[i]
+            cont[0] += 1
+            Max_Heap(array, maior, size - 1, modo, cont)    
+def descobreFilhos(array, size, modo, cont):
+    aux = range(size // 2, -1, -1)
+    for i in aux:
+        Max_Heap(array, i, size, modo, cont)
+def Heapsort(array, modo, cont):
+    size = len(array)
+    descobreFilhos(array, size, modo, cont)
+    for i in range(len(array) - 1, 0, -1):
+        array[0], array[i]  = array[i], array[0]
+        size -= 1
+        Max_Heap(array, 0, size, modo, cont)
+
 #entrada de nome e abertura do arq no modo de leitura
 arq = input('\nDigite o nome do arquivo: ')
 fp = open(arq+'.txt','r')
@@ -176,8 +210,8 @@ j = [0]
 print('==================================================================')
 BubbleSort(array, modo, j)
 print(f'\n\nVetor ordenado com Bubblesort:{array}, comp: {j}')
-random.shuffle(array)
-j = [0]
+random.shuffle(array) #embaranah o vetor de novo
+j = [0] #zera o contador
 
 selectsort(array, size, modo, j)
 print(f'\n\nVetor ordenado com Selectsort:{array}, comp: {j}')
@@ -196,6 +230,11 @@ j = [0]
 
 Quicksort(array, inicio, fim, modo, j)
 print(f'\n\nVetor ordenado com Quicksort:{array}, comp: {j}')
+random.shuffle(array)
+j = [0]
+
+Heapsort(array, modo, j)
+print(f'\n\nVetor ordenado com Heapsort:{array}, comp: {j}')
 print('\n\n==================================================================\n')
 
 #finaliza o arq
