@@ -73,8 +73,6 @@ def Quicksort(array, inicio, fim, cont):
        pivo = particiona(array, inicio, fim, cont)
        Quicksort(array,inicio,pivo-1, cont)
        Quicksort(array,pivo+1,fim, cont)
-       
-    
 def particiona(array, inicio, fim, cont):
     pivo = array[inicio]
     esquerda = inicio+1
@@ -135,8 +133,7 @@ def arrayMaker(size, modo):
             print('Modo desconhecido. ERRO!')
             quit()
     return array
-    
-    
+
 #entrada de nome e abertura do arq no modo de leitura
 arq = input('\nDigite o nome do arquivo: ')
 fp = open(arq+'.txt','r')
@@ -144,7 +141,6 @@ fp = open(arq+'.txt','r')
 #leitura de cada linha do arq
 size = int(fp.readline())
 modo = fp.readline()
-
 array = arrayMaker(size, modo)
 
 print(f'\nTamanho do vetor: {size}\n')
@@ -238,13 +234,13 @@ heap_time = time_final - time_inicial
 print(f'\n\nVetor ordenado com Heapsort:\n{array}')
 print('\n\n==================================================================\n')
 
-print("Numeros de comparações | Tempos decorridos [milissegundos (formato imperial, com .)]:")
-print(f"BubbleSort: {bubble_comps} | {bubble_time.microseconds/1000}")
-print(f"SelectionSort: {selection_comps} | {selection_time.microseconds/1000}")
-print(f"InsertioSort: {insertion_comps} | {insertion_time.microseconds/1000}")
-print(f"MergeSort: {merge_comps} | {merge_time.microseconds/1000}")
-print(f"QuickSort: {quick_comps} | {quick_time.microseconds/1000}")
-print(f"HeapSort: {heap_comps} | {heap_time.microseconds/1000}")
+print("Numeros de comparações | Tempos decorridos [milissegundos]:")
+print(f"BubbleSort:{bubble_comps} | {bubble_time.microseconds/1000}")
+print(f"SelectionSort:{selection_comps} | {selection_time.microseconds/1000}")
+print(f"InsertioSort:{insertion_comps} | {insertion_time.microseconds/1000}")
+print(f"MergeSort:{merge_comps} | {merge_time.microseconds/1000}")
+print(f"QuickSort:{quick_comps} | {quick_time.microseconds/1000}")
+print(f"HeapSort:{heap_comps} | {heap_time.microseconds/1000}")
 
 
 #finaliza o arq
