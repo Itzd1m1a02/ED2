@@ -1,8 +1,10 @@
 #biblioteca:
 from numpy import random
-from datetime import datetime, timedelta
+from datetime import datetime
+import sys
+sys.setrecursionlimit(10000)
 
-#funções:
+#funções de ordenação:
 def BubbleSort (x, cont):
     trocou = True
     while trocou == True:
@@ -75,13 +77,13 @@ def Quicksort(array, inicio, fim, cont):
        Quicksort(array,pivo+1,fim, cont)
 def particiona(array, inicio, fim, cont):
     pivo = array[inicio]
-    esquerda = inicio+1
+    esquerda = inicio + 1
     direita = fim
     aux = False
     while not aux:
-        while esquerda <= direita and array[esquerda] <= pivo:
+        while esquerda <= fim and array[esquerda] <= pivo:
             esquerda += 1
-        while array[direita] >= pivo and direita >= esquerda:
+        while array[direita] >= pivo and direita > inicio:
             direita -= 1
         if direita < esquerda:
             aux = True
@@ -105,8 +107,7 @@ def Max_Heap(array, i, size, cont):
         cont[0] += 3
         Max_Heap(array, maior, size - 1, cont)    
 def descobreFilhos(array, size, cont):
-    aux = range(size // 2, -1, -1)
-    for i in aux:
+    for i in range(size // 2, -1, -1):
         Max_Heap(array, i, size, cont)
 def Heapsort(array, cont):
     size = len(array)
@@ -135,8 +136,8 @@ def arrayMaker(size, modo):
     return array
 
 #entrada de nome e abertura do arq no modo de leitura
-arq = input('\nDigite o nome do arquivo: ')
-fp = open(arq+'.txt','r')
+print('\nAviso ---> Nao precisa de .txt\n')
+fp = open(sys.argv[1] + '.txt','r')
 
 #leitura de cada linha do arq
 size = int(fp.readline())
@@ -208,7 +209,6 @@ merge_time = time_final - time_inicial
 print(f'\n\nVetor ordenado com Mergesort:\n{array}')
 
 #========================================================================
-
 quick_comps = [0]
 array = arrayMaker(size, modo)
 
@@ -245,3 +245,11 @@ print(f"HeapSort:{heap_comps} | {heap_time.microseconds/1000}")
 
 #finaliza o arq
 fp.close()
+
+#1)
+#caso os inputs fiquem dando arquivos invalidos tente reescrqver o arquivo sem de novo
+#por algum motivo as vezes não funciona
+
+#2)
+#caso o tempo de 0 com tamanho de vetores menores e que o tempo contabiliazado e muito pequeno
+#tente com um numero maior de numeros
