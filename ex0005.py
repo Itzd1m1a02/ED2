@@ -11,9 +11,9 @@ def particiona(array, inicio, fim, op, cont):
     
     if op == 'c':
         while not aux:
-            while esquerda <= direita and array[esquerda] <= pivo:
+            while esquerda < direita and array[esquerda] <= pivo:
                 esquerda += 1
-            while array[direita] >= pivo and direita >= esquerda:
+            while array[direita] >= pivo and direita > esquerda:
                 direita -= 1
             if direita < esquerda:
                 aux = True
@@ -26,9 +26,9 @@ def particiona(array, inicio, fim, op, cont):
     
     if op == 'd':
         while not aux:
-            while esquerda <= direita and array[esquerda] >= pivo:
+            while esquerda < direita and array[esquerda] >= pivo:
                 esquerda += 1
-            while array[direita] <= pivo and direita >= esquerda:
+            while array[direita] <= pivo and direita > esquerda:
                 direita -= 1
             if direita < esquerda:
                 aux = True
